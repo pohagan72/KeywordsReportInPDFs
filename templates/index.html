@@ -2,276 +2,323 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Epiq AI - Lab Notebook Analyzer</title>
+    <title>Epiq AI – Lab Notebook Analyzer</title>
     <style>
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            margin: 0;
-            background-color: #f4f7f6;
-            color: #333;
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            background-color: #f0f2f5;
+            color: #1a1e51;
+        }
+        .logo-container {
             display: flex;
-            flex-direction: column; /* Stack items vertically */
-            align-items: center; /* Center items horizontally */
-            min-height: 100vh;
-        }
-
-        .container {
-            width: 90%;
-            max-width: 800px;
-            background-color: #f9f9f9; /* Light grey background */
-            padding: 30px;
-            border-radius: 10px;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-            text-align: center;
+            justify-content: center;
+            align-items: center;
             margin-bottom: 20px;
-            margin-top: 20px; /* Add margin at the top */
         }
-
+        .logo {
+            max-width: 200px;
+            max-height: 100px;
+            object-fit: contain;
+        }
         h1 {
-            color: #2c3e50;
-            margin-bottom: 20px;
-            font-size: 2em;
-        }
-
-        .form-group {
-            margin-bottom: 20px;
-            text-align: left;
-        }
-
-        label {
-            display: block;
-            margin-bottom: 8px;
-            color: #777;
-            font-weight: 500;
-        }
-
-        input[type="text"],
-        input[type="file"] {
-            width: calc(100% - 22px);
-            padding: 12px;
-            border: 1px solid #ddd;
-            border-radius: 6px;
-            margin-top: 6px;
-            font-size: 16px;
-            box-sizing: border-box;
-        }
-
-        input[type="file"] {
-            padding: 10px;
-            border: none;
-            background-color: #f9f9f9;
-            cursor: pointer;
-        }
-
-        .button-container {
-          display: flex;
-          justify-content: flex-start; /* Align items to the left */
-          align-items: center; /* Vertically align items */
-        }
-
-        button {
-            background-color: #3498db;
-            color: white;
-            padding: 14px 20px;
-            border: none;
-            border-radius: 6px;
-            cursor: pointer;
-            font-size: 18px;
-            transition: background-color 0.3s ease;
-            width: auto;
-            margin-top: 20px;
-            margin-left: 10px;
-        }
-
-        button:hover {
-            background-color: #2980b9;
-        }
-
-        .status {
-            margin-top: 20px;
-            padding: 15px;
-            background-color: #e8f0fe;
-            border-radius: 6px;
-            color: #34495e;
-            font-size: 16px;
             text-align: center;
-            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
-            border: 1px solid #ddd;
-        }
-
-        .progress-bar {
-            width: 100%;
-            height: 25px;
-            background-color: #ecf0f1;
-            border-radius: 6px;
             margin-top: 10px;
-            overflow: hidden;
+            margin-bottom: 40px;
+            color: #074D83;
+            border-bottom: 3px solid #00A9E0;
+            padding-bottom: 10px;
         }
-
-        .progress {
-            height: 100%;
-            background-color: #2ecc71;
-            color: white;
-            text-align: center;
-            line-height: 25px;
-            width: 0%;
-            transition: width 0.3s ease;
-        }
-        
-        /* Tile styling */
-        .tile-container {
+        .container {
             display: flex;
-            justify-content: center; /* Center items horizontally */
-            align-items: center; /* Center items vertically */
-            width: 100%; /* Take full width */
-            margin: 20px auto; /* Add margin to top and bottom and center the container itself */
-            text-align: center; /* Ensure text is centered */
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 20px;
+            max-width: 800px;
+            margin: 0 auto;
         }
-
         .tile {
-            background-color: #fff;
+            background: #fff;
+            border: 1px solid #006fba;
             border-radius: 8px;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+            width: 300px;
             padding: 20px;
-            width: 90%; /* Take up most of the container width */
-            max-width: 600px; /* Set a maximum width */
-            border: 1px solid #ddd;
-            margin: 0 auto; /* Center the tile horizontally */
-            text-align: left; /* Restore left alignment for the form elements */
+            text-align: center;
+            box-shadow: 0 4px 6px rgba(0,111,186,0.1);
+            transition: all 0.3s ease;
         }
-
-        .tile h1 {
-            color: #3498db;
-            margin-bottom: 10px;
-            text-align: center; /* Center the title */
+        .tile:hover {
+            border-color: #00A9E0;
+            transform: translateY(-5px);
         }
-
-        .tile p {
-            color: #666;
-            font-size: 15px;
+        .tile h2 {
+            margin-top: 0;
+            font-size: 20px;
+            margin-bottom: 15px;
+            color: #074D83;
         }
-
-        /* Responsive Design */
-        @media (max-width: 768px) {
-            .tile {
-                width: calc(100% - 20px);
-                padding: 15px;
-            }
-
-            h1 {
-                font-size: 1.75em;
-            }
-
-            .button-container {
-                flex-direction: column;
-                align-items: stretch;
-            }
-
-            .button-container .form-group {
-                margin-bottom: 10px;
-            }
-
-            button {
-                margin: 10px 0;
-            }
+        .drop-zone {
+            width: 100%;
+            height: 120px;
+            border: 2px dashed #006fba;
+            border-radius: 5px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            color: #555;
+            cursor: pointer;
+            background-color: #f9f9f9;
+            transition: all 0.3s ease;
+            box-sizing: border-box;
+            padding: 10px;
+            line-height: 1.4;
+            font-size: 14px;
+        }
+        .drop-zone.dragover {
+            border-color: #00A9E0;
+            background-color: rgba(0,169,224,0.1);
+        }
+        input[type="file"] {
+            display: none;
+        }
+        .file-name {
+            margin-top: 10px;
+            font-style: italic;
+            font-size: 14px;
+            color: #1a1e51;
+            word-wrap: break-word;
+            max-width: 100%;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+        #submitButton {
+            display: block;
+            margin: 40px auto 20px;
+            padding: 12px 30px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            background-color: #006fba;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            transition: background-color 0.3s, transform 0.1s;
+            box-shadow: 0 2px 5px rgba(0,111,186,0.3);
+        }
+        #submitButton:hover:not(:disabled) {
+            background-color: #00A9E0;
+            transform: scale(1.02);
+        }
+        #submitButton:disabled {
+            background-color: #cccccc;
+            color: #666666;
+            cursor: not-allowed;
+            box-shadow: none;
+            transform: none;
+        }
+        #spinnerOverlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(255, 255, 255, 0.85);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+            flex-direction: column;
+            gap: 15px;
+        }
+        .spinner {
+            border: 8px solid #f3f3f3;
+            border-top: 8px solid #074D83;
+            border-radius: 50%;
+            width: 60px;
+            height: 60px;
+            animation: spin 1s linear infinite;
+        }
+        #spinnerText {
+            color: #074D83;
+            font-size: 18px;
+            font-weight: bold;
+        }
+        @keyframes spin {
+            0%   { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        #errorMessage {
+            color: #D8000C;
+            background-color: #FFD2D2;
+            border: 1px solid #D8000C;
+            padding: 10px 15px;
+            margin: 20px auto;
+            border-radius: 5px;
+            text-align: center;
+            max-width: 760px;
+            display: none;
+            font-size: 14px;
         }
     </style>
 </head>
 <body>
-    <div class="tile-container">
-    <div class="tile">
-        <h1>Epiq AI - Lab Notebook Analyzer</h1>
-        <form id="ocrForm" enctype="multipart/form-data">
-            <div class="form-group">
-                <label for="folderPath">Enter the folder path:</label>
-                <input type="text" id="folderPath" name="folderPath" placeholder="Enter folder path" required>
+    <div class="logo-container">
+        <img src="{{ url_for('static', filename='epiqlogo.png') }}" alt="Epiq AI Logo" class="logo">
+    </div>
+
+    <h1>
+        Prototype AI Agent for<br>
+        Lab Notebook Analysis
+    </h1>
+
+    <div id="errorMessage"></div>
+
+    <form id="uploadForm">
+        <div class="container">
+            <div class="tile" id="pdf-tile">
+                <h2>Lab Notebook (PDF)</h2>
+                <div class="drop-zone" id="pdf-drop-zone">
+                    Drop PDF here<br>or click to browse
+                </div>
+                <input type="file" name="pdf_file" id="pdf-file" accept="application/pdf" required>
+                <div class="file-name" id="pdf-file-name">No file selected</div>
             </div>
 
-          <div class = "button-container">
-            <div class="form-group" style= "margin-bottom: 0">
-                <label for="excelFile">Upload Excel file with search terms:</label>
-                <input type="file" id="excelFile" name="excelFile" accept=".xlsx, .xls" required>
+            <div class="tile" id="excel-tile">
+                <h2>Keywords (Excel)</h2>
+                <div class="drop-zone" id="excel-drop-zone">
+                    Drop Excel here<br>or click to browse
+                </div>
+                <input type="file" name="excel_file" id="excel-file" accept=".xlsx,.xls" required>
+                <div class="file-name" id="excel-file-name">No file selected</div>
             </div>
-            <button type="submit">Start Processing</button>
-          </div>
-        </form>
+        </div>
+
+        <button type="submit" id="submitButton" disabled>Analyze Files</button>
+    </form>
+
+    <div id="spinnerOverlay">
+        <div class="spinner"></div>
+        <div id="spinnerText">Processing... Please wait.</div>
     </div>
-    </div>
-    <div class="status" id="status"></div>
-    <div class="progress-bar">
-        <div class="progress" id="progress"></div>
-    </div>
 
-    <script>
-        document.getElementById("ocrForm").addEventListener("submit", async function (e) {
-            e.preventDefault();
-            const folderPath = document.getElementById("folderPath").value;
-            const excelFile = document.getElementById("excelFile").files[0];
-            const statusDiv = document.getElementById("status");
-            const progressDiv = document.getElementById("progress");
+<script>
+    const pdfDropZone = document.getElementById('pdf-drop-zone');
+    const pdfFileInput = document.getElementById('pdf-file');
+    const pdfFileName = document.getElementById('pdf-file-name');
+    const excelDropZone = document.getElementById('excel-drop-zone');
+    const excelFileInput = document.getElementById('excel-file');
+    const excelFileName = document.getElementById('excel-file-name');
+    const submitButton = document.getElementById('submitButton');
+    const uploadForm = document.getElementById('uploadForm');
+    const spinnerOverlay = document.getElementById('spinnerOverlay');
+    const errorMessageDiv = document.getElementById('errorMessage');
 
-            statusDiv.innerHTML = "Processing...";
-            progressDiv.style.width = "0%";
-            progressDiv.innerHTML = "0%";
+    function updateFileName(inputElement, nameElement) {
+        const file = inputElement.files[0];
+        nameElement.textContent = file ? file.name : 'No file selected';
+        nameElement.style.color = file ? '#074D83' : '#555';
+        submitButton.disabled = !(pdfFileInput.files.length && excelFileInput.files.length);
+    }
 
-            const formData = new FormData();
-            formData.append("folderPath", folderPath);
-            formData.append("excelFile", excelFile);
+    function handleDrop(e, inputElement, nameElement, acceptedTypes, errorMessage) {
+        e.preventDefault();
+        e.target.classList.remove('dragover');
+        const file = e.dataTransfer.files[0];
 
-            try {
-                const response = await fetch("/process", {
-                    method: "POST",
-                    body: formData,
-                });
-
-                if (response.ok) {
-                    const data = await response.json();
-                    // Start updating progress
-                    await updateProgress(folderPath);
-
-                    statusDiv.innerHTML = "Processing complete!";
-
-                    // Auto trigger download
-                    window.location.href = `/download?folder_path=${folderPath}`;
-                } else {
-                    try {
-                        const result = await response.json();
-                        statusDiv.innerHTML = `Error: ${result.error}`;
-                    } catch (error) {
-                        statusDiv.innerHTML = `Error: ${response.statusText}`;
-                    }
-                }
-            } catch (error) {
-                statusDiv.innerHTML = `Error: ${error.message}`;
-            }
-        });
-
-        async function updateProgress(folderPath) {
-            const progressDiv = document.getElementById("progress");
-            const statusDiv = document.getElementById("status");
-
-            while (true) {
-                const response = await fetch("/progress");
-                const data = await response.json();
-
-                if (data.total_images === 0) {
-                    statusDiv.innerHTML = "Waiting to start processing...";
-                    progressDiv.style.width = "0%";
-                    progressDiv.innerHTML = "0%";
-                } else {
-                    const progress = (data.processed_images / data.total_images) * 100;
-                    progressDiv.style.width = `${progress}%`;
-                    progressDiv.innerHTML = `${Math.round(progress)}%`;
-                    statusDiv.innerHTML = `Processing... ${data.processed_images} of ${data.total_images} images processed.`;
-
-                    if (data.processed_images >= data.total_images) {
-                        break;
-                    }
-                }
-                await new Promise(resolve => setTimeout(resolve, 1000));
-            }
+        if (file && acceptedTypes.some(type => file.type === type || file.name.toLowerCase().endsWith(type))) {
+            inputElement.files = e.dataTransfer.files;
+            updateFileName(inputElement, nameElement);
+        } else {
+            displayError(errorMessage);
+            inputElement.value = '';
+            updateFileName(inputElement, nameElement);
         }
-    </script>
+    }
+
+    // Generic drag and drop handlers
+    function setupDragAndDrop(dropZone, inputElement, nameElement, acceptedTypes, errorMessage) {
+        dropZone.addEventListener('click', () => inputElement.click());
+        inputElement.addEventListener('change', () => updateFileName(inputElement, nameElement));
+
+        dropZone.addEventListener('dragover', e => {
+            e.preventDefault();
+            dropZone.classList.add('dragover');
+        });
+        dropZone.addEventListener('dragleave', () => dropZone.classList.remove('dragover'));
+        dropZone.addEventListener('drop', e => handleDrop(e, inputElement, nameElement, acceptedTypes, errorMessage));
+    }
+
+    setupDragAndDrop(pdfDropZone, pdfFileInput, pdfFileName, ['application/pdf'], "Invalid file type dropped for Lab Notebook. Please drop a PDF file.");
+    setupDragAndDrop(excelDropZone, excelFileInput, excelFileName, ['application/vnd.ms-excel', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet', '.xls', '.xlsx'], "Invalid file type dropped for Keywords. Please drop an Excel file (.xls or .xlsx).");
+
+    async function submitForm() {
+        hideError();
+        spinnerOverlay.style.display = 'flex';
+        submitButton.disabled = true;
+
+        const formData = new FormData(uploadForm);
+
+        try {
+            const response = await fetch('/process', {
+                method: 'POST',
+                body: formData,
+            });
+
+            if (response.ok) {
+                const blob = await response.blob();
+                const filename = response.headers.get('content-disposition')?.match(/filename="?(.+?)"?$/)?.[1] || "results.zip";
+                const link = document.createElement('a');
+                link.href = window.URL.createObjectURL(blob);
+                link.download = filename;
+                document.body.appendChild(link);
+                link.click();
+                document.body.removeChild(link);
+                window.URL.revokeObjectURL(link.href);
+                resetForm();
+            } else {
+                const errorData = await response.json();
+                displayError(`Error ${response.status}: ${errorData.error || response.statusText}`);
+            }
+        } catch (error) {
+            console.error('Fetch Error:', error);
+            displayError('Network error or server unavailable. Could not process the request.');
+        } finally {
+            spinnerOverlay.style.display = 'none';
+            submitButton.disabled = !(pdfFileInput.files.length && excelFileInput.files.length);
+        }
+    }
+
+    uploadForm.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        await submitForm();
+    });
+
+    function displayError(message) {
+        errorMessageDiv.textContent = message;
+        errorMessageDiv.style.display = 'block';
+    }
+
+    function hideError() {
+        errorMessageDiv.style.display = 'none';
+    }
+
+    function resetForm() {
+        uploadForm.reset();
+        pdfFileName.textContent = 'No file selected';
+        pdfFileName.style.color = '#555';
+        excelFileName.textContent = 'No file selected';
+        excelFileName.style.color = '#555';
+        submitButton.disabled = true;
+        hideError();
+    }
+
+    // Initial check
+    updateFileName(pdfFileInput, pdfFileName);
+    updateFileName(excelFileInput, excelFileName);
+</script>
+
 </body>
 </html>
