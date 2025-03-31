@@ -1,1 +1,10 @@
-
+Flask
+azure-ai-formrecognizer
+azure-storage-blob
+pypdf
+reportlab
+pandas
+openpyxl
+Flask-Limiter
+gunicorn
+waitress
