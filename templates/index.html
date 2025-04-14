@@ -2,54 +2,55 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Epiq AI – Lab Notebook Analyzer</title>
+    <title>Epiq AI – Lab Notebook Analyzer</title> <!-- Page Title -->
     <style>
+        /* Basic styling for the page elements */
         body {
             font-family: Arial, sans-serif;
             margin: 20px;
-            background-color: #f0f2f5;
-            color: #1a1e51;
+            background-color: #f0f2f5; /* Light background */
+            color: #1a1e51; /* Default text color */
         }
         .logo-container {
             display: flex;
-            justify-content: center;
+            justify-content: center; /* Center logo horizontally */
             align-items: center;
             margin-bottom: 20px;
         }
         .logo {
             max-width: 200px;
             max-height: 100px;
-            object-fit: contain;
+            object-fit: contain; /* Ensure logo scales correctly */
         }
         h1 {
             text-align: center;
             margin-top: 10px;
             margin-bottom: 40px;
-            color: #074D83;
-            border-bottom: 3px solid #00A9E0;
+            color: #074D83; /* Epiq blue */
+            border-bottom: 3px solid #00A9E0; /* Accent border */
             padding-bottom: 10px;
         }
         .container {
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: center;
-            gap: 20px;
-            max-width: 800px;
-            margin: 0 auto;
+            display: flex; /* Use flexbox for layout */
+            flex-wrap: wrap; /* Allow tiles to wrap on smaller screens */
+            justify-content: center; /* Center tiles */
+            gap: 20px; /* Space between tiles */
+            max-width: 800px; /* Limit overall width */
+            margin: 0 auto; /* Center container */
         }
         .tile {
-            background: #fff;
-            border: 1px solid #006fba;
-            border-radius: 8px;
-            width: 300px;
+            background: #fff; /* White background for tiles */
+            border: 1px solid #006fba; /* Border color */
+            border-radius: 8px; /* Rounded corners */
+            width: 300px; /* Fixed width for tiles */
             padding: 20px;
             text-align: center;
-            box-shadow: 0 4px 6px rgba(0,111,186,0.1);
-            transition: all 0.3s ease;
+            box-shadow: 0 4px 6px rgba(0,111,186,0.1); /* Subtle shadow */
+            transition: all 0.3s ease; /* Smooth transitions on hover */
         }
         .tile:hover {
-            border-color: #00A9E0;
-            transform: translateY(-5px);
+            border-color: #00A9E0; /* Change border color on hover */
+            transform: translateY(-5px); /* Slight lift effect on hover */
         }
         .tile h2 {
             margin-top: 0;
@@ -57,154 +58,181 @@
             margin-bottom: 15px;
             color: #074D83;
         }
+        /* Styling for the drag-and-drop areas */
         .drop-zone {
-            width: 100%;
-            height: 120px;
-            border: 2px dashed #006fba;
+            width: 100%; /* Full width within tile */
+            height: 120px; /* Fixed height */
+            border: 2px dashed #006fba; /* Dashed border */
             border-radius: 5px;
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            color: #555;
-            cursor: pointer;
-            background-color: #f9f9f9;
-            transition: all 0.3s ease;
-            box-sizing: border-box;
+            color: #555; /* Placeholder text color */
+            cursor: pointer; /* Indicate clickable */
+            background-color: #f9f9f9; /* Slightly different background */
+            transition: all 0.3s ease; /* Smooth transitions */
+            box-sizing: border-box; /* Include padding/border in size */
             padding: 10px;
             line-height: 1.4;
             font-size: 14px;
         }
+        /* Style when dragging a file over the drop zone */
         .drop-zone.dragover {
-            border-color: #00A9E0;
-            background-color: rgba(0,169,224,0.1);
+            border-color: #00A9E0; /* Highlight border */
+            background-color: rgba(0,169,224,0.1); /* Slight background tint */
         }
+        /* Hide the default file input element */
         input[type="file"] {
             display: none;
         }
+        /* Styling for displaying the selected filename */
         .file-name {
             margin-top: 10px;
             font-style: italic;
             font-size: 14px;
             color: #1a1e51;
-            word-wrap: break-word;
+            word-wrap: break-word; /* Prevent long names overflowing */
             max-width: 100%;
             overflow: hidden;
-            text-overflow: ellipsis;
+            text-overflow: ellipsis; /* Add '...' for very long names */
             white-space: nowrap;
         }
+        /* Styling for the main submit button */
         #submitButton {
-            display: block;
+            display: block; /* Center using margin auto */
             margin: 40px auto 20px;
             padding: 12px 30px;
             font-size: 16px;
             font-weight: bold;
             cursor: pointer;
-            background-color: #006fba;
-            color: #fff;
+            background-color: #006fba; /* Button color */
+            color: #fff; /* Text color */
             border: none;
             border-radius: 5px;
-            transition: background-color 0.3s, transform 0.1s;
-            box-shadow: 0 2px 5px rgba(0,111,186,0.3);
+            transition: background-color 0.3s, transform 0.1s; /* Smooth transitions */
+            box-shadow: 0 2px 5px rgba(0,111,186,0.3); /* Button shadow */
         }
+        /* Hover state for the enabled button */
         #submitButton:hover:not(:disabled) {
-            background-color: #00A9E0;
-            transform: scale(1.02);
+            background-color: #00A9E0; /* Lighter blue on hover */
+            transform: scale(1.02); /* Slight grow effect */
         }
+        /* Styling for the disabled submit button */
         #submitButton:disabled {
-            background-color: #cccccc;
+            background-color: #cccccc; /* Grey out disabled button */
             color: #666666;
-            cursor: not-allowed;
+            cursor: not-allowed; /* Indicate non-interactive */
             box-shadow: none;
             transform: none;
         }
+        /* Styling for the loading spinner overlay */
         #spinnerOverlay {
-            position: fixed;
+            position: fixed; /* Cover the entire viewport */
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            background: rgba(255, 255, 255, 0.85);
-            display: none;
+            background: rgba(255, 255, 255, 0.85); /* Semi-transparent white background */
+            display: none; /* Hidden by default */
             justify-content: center;
             align-items: center;
-            z-index: 9999;
-            flex-direction: column;
-            gap: 15px;
+            z-index: 9999; /* Ensure it's on top */
+            flex-direction: column; /* Stack spinner and text vertically */
+            gap: 15px; /* Space between spinner and text */
         }
+        /* The rotating spinner element */
         .spinner {
-            border: 8px solid #f3f3f3;
-            border-top: 8px solid #074D83;
-            border-radius: 50%;
+            border: 8px solid #f3f3f3; /* Light grey track */
+            border-top: 8px solid #074D83; /* Blue spinning part */
+            border-radius: 50%; /* Make it circular */
             width: 60px;
             height: 60px;
-            animation: spin 1s linear infinite;
+            animation: spin 1s linear infinite; /* Apply rotation animation */
         }
         #spinnerText {
             color: #074D83;
             font-size: 18px;
             font-weight: bold;
         }
+        /* Keyframe animation for the spinner rotation */
         @keyframes spin {
             0%   { transform: rotate(0deg); }
             100% { transform: rotate(360deg); }
         }
+        /* Styling for the error message box */
         #errorMessage {
-            color: #D8000C;
-            background-color: #FFD2D2;
-            border: 1px solid #D8000C;
+            color: #D8000C; /* Error text color */
+            background-color: #FFD2D2; /* Light red background */
+            border: 1px solid #D8000C; /* Red border */
             padding: 10px 15px;
-            margin: 20px auto;
+            margin: 20px auto; /* Centered with space */
             border-radius: 5px;
             text-align: center;
-            max-width: 760px;
-            display: none;
+            max-width: 760px; /* Limit width */
+            display: none; /* Hidden by default */
             font-size: 14px;
         }
     </style>
 </head>
 <body>
+    <!-- Logo Display -->
     <div class="logo-container">
+        <!-- Loads logo from the 'static' folder served by Flask -->
         <img src="{{ url_for('static', filename='epiqlogo.png') }}" alt="Epiq AI Logo" class="logo">
     </div>
 
+    <!-- Main Title -->
     <h1>
         Prototype AI Agent for<br>
         Lab Notebook Analysis
     </h1>
 
+    <!-- Error Message Area (hidden by default) -->
     <div id="errorMessage"></div>
 
+    <!-- Main Form for File Uploads -->
     <form id="uploadForm">
         <div class="container">
+            <!-- PDF Upload Tile -->
             <div class="tile" id="pdf-tile">
                 <h2>Lab Notebook (PDF)</h2>
+                <!-- Clickable/Droppable area for PDF -->
                 <div class="drop-zone" id="pdf-drop-zone">
                     Drop PDF here<br>or click to browse
                 </div>
+                <!-- Hidden file input, triggered by clicking the drop zone -->
                 <input type="file" name="pdf_file" id="pdf-file" accept="application/pdf" required>
+                <!-- Area to display the selected PDF filename -->
                 <div class="file-name" id="pdf-file-name">No file selected</div>
             </div>
 
+            <!-- Excel Upload Tile -->
             <div class="tile" id="excel-tile">
                 <h2>Keywords (Excel)</h2>
+                <!-- Clickable/Droppable area for Excel -->
                 <div class="drop-zone" id="excel-drop-zone">
                     Drop Excel here<br>or click to browse
                 </div>
-                <input type="file" name="excel_file" id="excel-file" accept=".xlsx,.xls" required>
+                <!-- Hidden file input, accepting .xlsx and .xls -->
+                <input type="file" name="excel_file" id="excel-file" accept=".xlsx,.xls,application/vnd.ms-excel,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" required>
+                <!-- Area to display the selected Excel filename -->
                 <div class="file-name" id="excel-file-name">No file selected</div>
             </div>
         </div>
 
+        <!-- Submit Button (initially disabled) -->
         <button type="submit" id="submitButton" disabled>Analyze Files</button>
     </form>
 
+    <!-- Spinner Overlay (hidden by default, shown during processing) -->
     <div id="spinnerOverlay">
-        <div class="spinner"></div>
-        <div id="spinnerText">Processing... Please wait.</div>
+        <div class="spinner"></div> <!-- The rotating spinner -->
+        <div id="spinnerText">Processing... Please wait.</div> <!-- Text below spinner -->
     </div>
 
 <script>
+    // --- Get references to DOM elements ---
     const pdfDropZone = document.getElementById('pdf-drop-zone');
     const pdfFileInput = document.getElementById('pdf-file');
     const pdfFileName = document.getElementById('pdf-file-name');
@@ -216,106 +244,206 @@
     const spinnerOverlay = document.getElementById('spinnerOverlay');
     const errorMessageDiv = document.getElementById('errorMessage');
 
+    /**
+     * Updates the text content of the file name display element based on the
+     * selected file in the corresponding input element. Also enables/disables
+     * the submit button based on whether both files are selected.
+     * @param {HTMLInputElement} inputElement - The file input element.
+     * @param {HTMLElement} nameElement - The element displaying the filename.
+     */
     function updateFileName(inputElement, nameElement) {
-        const file = inputElement.files[0];
-        nameElement.textContent = file ? file.name : 'No file selected';
-        nameElement.style.color = file ? '#074D83' : '#555';
-        submitButton.disabled = !(pdfFileInput.files.length && excelFileInput.files.length);
+        const file = inputElement.files[0]; // Get the first selected file (if any)
+        nameElement.textContent = file ? file.name : 'No file selected'; // Display name or default text
+        nameElement.style.color = file ? '#074D83' : '#555'; // Change color if file is selected
+        // Enable submit button only if both PDF and Excel inputs have a file selected
+        submitButton.disabled = !(pdfFileInput.files.length > 0 && excelFileInput.files.length > 0);
     }
 
+    /**
+     * Handles the 'drop' event on a drop zone. Validates the dropped file type
+     * and updates the corresponding file input if valid. Shows an error if invalid.
+     * @param {DragEvent} e - The drop event.
+     * @param {HTMLInputElement} inputElement - The associated file input.
+     * @param {HTMLElement} nameElement - The associated filename display element.
+     * @param {string[]} acceptedTypes - Array of accepted MIME types or file extensions (lowercase).
+     * @param {string} errorMessage - Message to display if file type is invalid.
+     */
     function handleDrop(e, inputElement, nameElement, acceptedTypes, errorMessage) {
-        e.preventDefault();
-        e.target.classList.remove('dragover');
-        const file = e.dataTransfer.files[0];
+        e.preventDefault(); // Prevent default browser behavior (opening the file)
+        e.target.classList.remove('dragover'); // Remove the visual dragover highlight
+        const file = e.dataTransfer.files[0]; // Get the dropped file
 
-        if (file && acceptedTypes.some(type => file.type === type || file.name.toLowerCase().endsWith(type))) {
+        // Check if a file was dropped and if its type or extension matches accepted types
+        if (file && acceptedTypes.some(type =>
+                (type.startsWith('.') && file.name.toLowerCase().endsWith(type)) || // Check extension
+                file.type === type                                                  // Check MIME type
+            )) {
+            // If valid, assign the dropped file(s) to the hidden file input
             inputElement.files = e.dataTransfer.files;
-            updateFileName(inputElement, nameElement);
+            updateFileName(inputElement, nameElement); // Update display and button state
+        } else if (file) {
+            // If a file was dropped but it's the wrong type
+            displayError(errorMessage); // Show the specific error message
+            inputElement.value = ''; // Clear the input (important if user later clicks)
+            updateFileName(inputElement, nameElement); // Reset display and button state
         } else {
-            displayError(errorMessage);
+            // If nothing valid was dropped (e.g., text, multiple files where only one expected)
             inputElement.value = '';
             updateFileName(inputElement, nameElement);
         }
     }
 
-    // Generic drag and drop handlers
+    /**
+     * Sets up event listeners for click, change, dragover, dragleave, and drop
+     * for a given drop zone and file input pair.
+     * @param {HTMLElement} dropZone - The visible drop zone element.
+     * @param {HTMLInputElement} inputElement - The hidden file input element.
+     * @param {HTMLElement} nameElement - The element displaying the filename.
+     * @param {string[]} acceptedTypes - Array of accepted MIME types or file extensions.
+     * @param {string} errorMessage - Message for invalid file type drop.
+     */
     function setupDragAndDrop(dropZone, inputElement, nameElement, acceptedTypes, errorMessage) {
+        // --- Click Handling ---
+        // Make the drop zone clickable to trigger the hidden file input
         dropZone.addEventListener('click', () => inputElement.click());
+        // Update filename display when a file is selected via the file browser
         inputElement.addEventListener('change', () => updateFileName(inputElement, nameElement));
 
+        // --- Drag and Drop Handling ---
+        // Add visual cue when dragging over
         dropZone.addEventListener('dragover', e => {
-            e.preventDefault();
+            e.preventDefault(); // Necessary to allow dropping
             dropZone.classList.add('dragover');
         });
+        // Remove visual cue when dragging leaves
         dropZone.addEventListener('dragleave', () => dropZone.classList.remove('dragover'));
+        // Handle the actual file drop
         dropZone.addEventListener('drop', e => handleDrop(e, inputElement, nameElement, acceptedTypes, errorMessage));
     }
 
-    setupDragAndDrop(pdfDropZone, pdfFileInput, pdfFileName, ['application/pdf'], "Invalid file type dropped for Lab Notebook. Please drop a PDF file.");
-    setupDragAndDrop(excelDropZone, excelFileInput, excelFileName, ['application/vnd.ms-excel', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet', '.xls', '.xlsx'], "Invalid file type dropped for Keywords. Please drop an Excel file (.xls or .xlsx).");
+    // --- Initialize Drag and Drop for both tiles ---
+    setupDragAndDrop(
+        pdfDropZone,
+        pdfFileInput,
+        pdfFileName,
+        ['application/pdf'], // Accepted type for PDF
+        "Invalid file type dropped for Lab Notebook. Please drop a PDF file." // Error message
+    );
+    setupDragAndDrop(
+        excelDropZone,
+        excelFileInput,
+        excelFileName,
+        // Accepted types/extensions for Excel
+        ['application/vnd.ms-excel', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet', '.xls', '.xlsx'],
+        "Invalid file type dropped for Keywords. Please drop an Excel file (.xls or .xlsx)." // Error message
+    );
 
+    /**
+     * Handles the form submission asynchronously.
+     * Sends the files to the backend '/process' endpoint using Fetch API.
+     * Handles success (triggers download) and error responses.
+     */
     async function submitForm() {
-        hideError();
-        spinnerOverlay.style.display = 'flex';
-        submitButton.disabled = true;
+        hideError(); // Clear any previous error messages
+        spinnerOverlay.style.display = 'flex'; // Show the loading spinner
+        submitButton.disabled = true; // Disable button during processing
 
+        // Create FormData object to send files easily
         const formData = new FormData(uploadForm);
 
         try {
+            // Send POST request to the Flask backend
             const response = await fetch('/process', {
                 method: 'POST',
                 body: formData,
+                // Note: No 'Content-Type' header needed; browser sets it correctly for FormData
             });
 
-            if (response.ok) {
-                const blob = await response.blob();
-                const filename = response.headers.get('content-disposition')?.match(/filename="?(.+?)"?$/)?.[1] || "results.zip";
+            // --- Handle Response ---
+            if (response.ok) { // Check if response status is 2xx (e.g., 200 OK)
+                // Successfully received the result (ZIP file)
+                const blob = await response.blob(); // Get the response body as a Blob
+
+                // Extract filename from Content-Disposition header, default to "results.zip"
+                const contentDisposition = response.headers.get('content-disposition');
+                let filename = "results.zip";
+                if (contentDisposition) {
+                    // Regex to find filename="filename.ext" or filename=filename.ext
+                    const filenameMatch = contentDisposition.match(/filename\*?=['"]?([^'";]+)['"]?/);
+                    if (filenameMatch && filenameMatch[1]) {
+                        filename = filenameMatch[1];
+                    }
+                }
+
+                // Create a temporary link element to trigger the download
                 const link = document.createElement('a');
-                link.href = window.URL.createObjectURL(blob);
-                link.download = filename;
-                document.body.appendChild(link);
-                link.click();
-                document.body.removeChild(link);
-                window.URL.revokeObjectURL(link.href);
-                resetForm();
+                link.href = window.URL.createObjectURL(blob); // Create a URL for the blob
+                link.download = filename; // Set the download filename
+                document.body.appendChild(link); // Add link to DOM (needed for Firefox)
+                link.click(); // Programmatically click the link to start download
+                document.body.removeChild(link); // Remove the temporary link
+                window.URL.revokeObjectURL(link.href); // Release the blob URL resource
+
+                resetForm(); // Clear the form after successful download
             } else {
-                const errorData = await response.json();
+                // Handle error responses (e.g., 400, 413, 429, 500, 503)
+                const errorData = await response.json(); // Try to parse error JSON from backend
+                // Display the error message provided by the backend, or use status text
                 displayError(`Error ${response.status}: ${errorData.error || response.statusText}`);
             }
         } catch (error) {
+            // Handle network errors or issues connecting to the server
             console.error('Fetch Error:', error);
-            displayError('Network error or server unavailable. Could not process the request.');
+            displayError('Network error or server unavailable. Could not process the request. Please try again later.');
         } finally {
-            spinnerOverlay.style.display = 'none';
-            submitButton.disabled = !(pdfFileInput.files.length && excelFileInput.files.length);
+            // This block executes regardless of success or error
+            spinnerOverlay.style.display = 'none'; // Hide the spinner
+            // Re-enable button only if files are still selected (in case of error)
+            submitButton.disabled = !(pdfFileInput.files.length > 0 && excelFileInput.files.length > 0);
         }
     }
 
+    // --- Form Submit Event Listener ---
+    // Attach the submitForm function to the form's submit event
     uploadForm.addEventListener('submit', async (e) => {
-        e.preventDefault();
-        await submitForm();
+        e.preventDefault(); // Prevent the default synchronous form submission
+        await submitForm(); // Call the asynchronous submission handler
     });
 
+    /**
+     * Displays an error message in the designated error div.
+     * @param {string} message - The error message text.
+     */
     function displayError(message) {
         errorMessageDiv.textContent = message;
-        errorMessageDiv.style.display = 'block';
+        errorMessageDiv.style.display = 'block'; // Make the error div visible
     }
 
+    /**
+     * Hides the error message div.
+     */
     function hideError() {
-        errorMessageDiv.style.display = 'none';
+        errorMessageDiv.style.display = 'none'; // Make the error div hidden
     }
 
+    /**
+     * Resets the form to its initial state: clears inputs, resets filenames,
+     * disables submit button, and hides any error messages.
+     */
     function resetForm() {
-        uploadForm.reset();
+        uploadForm.reset(); // Clear file inputs and other form fields
+        // Reset filename displays to default text and style
         pdfFileName.textContent = 'No file selected';
         pdfFileName.style.color = '#555';
         excelFileName.textContent = 'No file selected';
         excelFileName.style.color = '#555';
-        submitButton.disabled = true;
-        hideError();
+        submitButton.disabled = true; // Disable submit button
+        hideError(); // Hide any visible error messages
     }
 
-    // Initial check
+    // --- Initial State Setup ---
+    // Call updateFileName on page load in case the browser remembers previous selections
+    // (though form.reset() usually handles this, it's good practice)
     updateFileName(pdfFileInput, pdfFileName);
     updateFileName(excelFileInput, excelFileName);
 </script>
